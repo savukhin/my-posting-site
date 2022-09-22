@@ -19,6 +19,10 @@
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+
+  --background-green: rgb(77, 223, 94);
+  --text-link-color: hsla(160, 100%, 37%, 1);
+  --text-link-color-choosen: rgb(161, 236, 211);
 }
 
 /* semantic color variables for this project */
@@ -34,6 +38,11 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
+}
+
+/* sizes */
+:root {
+  --navbar-height: 50px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -71,4 +80,5 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0px;
 }

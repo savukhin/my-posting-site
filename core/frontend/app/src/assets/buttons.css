@@ -1,0 +1,20 @@
+.btn {
+    padding: 5px 20px 5px 20px;
+    cursor: pointer;
+}
+
+.btn-hollow {
+    background-color: transparent;
+    border: solid 1px var(--text-link-color);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-green {
+    background-color: var(--background-green);
+    border: solid 1px var(--text-link-color);
+    border-radius: 4px;
+
+    color: var(--vt-c-text-light-1);
+    cursor: pointer;
+}
