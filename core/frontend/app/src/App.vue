@@ -1,29 +1,51 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { RouterLink, RouterView } from "vue-router";
+import { User } from "./dto/User";
+
+  const user = ref(new User)
+
+  const isLoading = ref(true)
+  const isLogged = ref(false)
+
+  setTimeout(() => {
+    isLoading.value = false
+    isLogged.value = true
+    user.value = new User()
+    user.value.avatarURL = ""
+    user.value.id = 0
+    user.value.username = "saveliy"
+
+    console.log("User generated");
+    
+  }, 1)
 </script>
 
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.svg"
-      width="125"
-      height="var(--navbar-height)"
-    />
+  <div v-if="isLoading"> Loading </div>
+  <div v-else>
+    <header>
+      <img
+        alt="Vue logo"
+        class="logo"
+        src="@/assets/logo.svg"
+        width="125"
+        height="var(--navbar-height)"
+      />
 
-    <div class="wrapper">
-      <nav>
-        <RouterLink class="btn-hollow" to="/">Home</RouterLink>
-        <RouterLink class="btn-hollow" to="/about">About</RouterLink>
-        <RouterLink class="btn-hollow" to="/register">Register</RouterLink>
-      </nav>
+      <div class="wrapper">
+        <nav>
+          <RouterLink class="btn-hollow" to="/">Home</RouterLink>
+          <RouterLink class="btn-hollow" to="/about">About</RouterLink>
+          <RouterLink class="btn-hollow" to="/register">Register</RouterLink>
+        </nav>
+      </div>
+    </header>
+    <div class="post-header"></div>
+
+    <div id="main-content">
+      <RouterView :user="user"/>
     </div>
-  </header>
-  <div class="post-header"></div>
-
-  <div id="main-content">
-    <RouterView/>
   </div>
 
 </template>
@@ -94,8 +116,6 @@ nav a {
   .logo {
     margin: 0 2rem 0 0;
   }
-
-  
 
   nav {
     text-align: left;
