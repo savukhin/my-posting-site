@@ -18,3 +18,27 @@
     color: var(--vt-c-text-light-1);
     cursor: pointer;
 }
+
+.btn-dropdown {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    cursor: pointer;
+}
+
+.btn-item {
+    cursor: pointer;
+}
+
+.btn-item:hover {
+    background-color: var(--vt-c-divider-dark-2);
+
+    cursor: pointer;
+}
+
+.btn-item-chose {
+    background-color: var(--color-background-mute);
+
+    cursor: pointer;
+}

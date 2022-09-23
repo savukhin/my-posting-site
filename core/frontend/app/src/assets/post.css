@@ -1,0 +1,21 @@
+.post-ul {
+    width: 500px;
+    padding: 2px;
+}
+
+.post-item {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: auto 20px;
+
+    padding: 15px 6px 15px 6px;
+    margin: 2px 0 1px 0;
+
+    background-color: var(--color-background-mute);
+    border-radius: 3px;
+}
+
+.post-item > textarea {
+    resize: none;
+    overflow: hidden;
+}
