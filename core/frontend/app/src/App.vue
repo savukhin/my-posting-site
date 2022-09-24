@@ -39,6 +39,7 @@ import { User } from "./dto/User";
           <RouterLink class="btn-hollow" to="/login">Login</RouterLink>
           <RouterLink class="btn-hollow" to="/profile">Profile</RouterLink>
           <RouterLink class="btn-hollow" to="/create-post">Create Post</RouterLink>
+          <RouterLink class="btn-hollow" to="/post/1">Post</RouterLink>
         </nav>
       </div>
     </header>
