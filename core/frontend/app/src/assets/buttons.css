@@ -1,0 +1,44 @@
+.btn {
+    padding: 5px 20px 5px 20px;
+    cursor: pointer;
+}
+
+.btn-hollow {
+    background-color: transparent;
+    border: solid 1px var(--text-link-color);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-green {
+    background-color: var(--background-green);
+    border: solid 1px var(--text-link-color);
+    border-radius: 4px;
+
+    color: var(--vt-c-text-light-1);
+    cursor: pointer;
+}
+
+.btn-dropdown {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    cursor: pointer;
+}
+
+.btn-item {
+    cursor: pointer;
+}
+
+.btn-item:hover {
+    background-color: var(--vt-c-divider-dark-2);
+
+    cursor: pointer;
+}
+
+.btn-item-chose {
+    background-color: var(--color-background-mute);
+
+    cursor: pointer;
+}

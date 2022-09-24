@@ -1,0 +1,40 @@
+@import "./base.css";
+@import "./forms.css";
+@import "./buttons.css";
+@import "./common.css";
+@import "./post.css";
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  /* padding: 2rem; */
+
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: var(--text-link-color);
+  transition: 0.4s;
+}
+
+.block {
+  background-color: var(--color-background-soft);
+  border-radius: 8px;
+  box-shadow: 1px 1px 10px var(--text-link-color-choosen);
+  padding: 1rem;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: var(--text-link-color-choosen);
+  }
+}
+
+#main-content {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
