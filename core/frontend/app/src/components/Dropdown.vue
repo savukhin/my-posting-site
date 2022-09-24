@@ -1,33 +1,63 @@
 <script setup lang="ts">import { onMounted, ref } from '@vue/runtime-dom';
 
-defineProps({
-    options: Array<String>
+const props = defineProps({
+    options: {
+        type: Array<String>,
+        required: true
+    }
+})
+
+let items: {option: String, chosen: boolean}[] = []
+props.options.forEach((option) => {
+    items.push({ option: option, chosen: false })
 })
 
 const emit = defineEmits<{
-    (event: "change", chosen: string) : void
+    (event: "change", chosen: string | undefined) : void
 }>()
 
-// const opened = ref(false)
-const opened = ref(true)
+const opened = ref(false)
+const button = ref<HTMLButtonElement>()
 const dropdownContent = ref<HTMLDivElement>()
-const chosen = ref<String>()
+const chosen = ref<string>()
+
+function fixContentPosition() {
+    setTimeout( () => {
+        if (dropdownContent.value)
+            dropdownContent.value.style.top = -dropdownContent.value.scrollHeight / 2 + 10 + "px" 
+    })
+}
 
 function toggleDrowndown() {
     opened.value = !opened.value
+    fixContentPosition()
 }
 
 onMounted(() => {
-    if (!dropdownContent.value)
-        return
-
-    dropdownContent.value.style.top = -dropdownContent.value.scrollHeight / 2 + 10 + "px" 
+    fixContentPosition()
 })
 
 function chose(option: string) {
     opened.value = !opened.value
     chosen.value = option
-    emit("chane", chosen.value)
+    emit("change", chosen.value)
+}
+
+document.onclick = (event: MouseEvent) => {
+    if (!button.value || !dropdownContent.value ) {
+        opened.value = false
+        return
+    }
+
+    console.log(event.target);
+    console.log(button.value);
+    console.log(dropdownContent.value);
+    
+
+    if (event.target != button.value && event.target != dropdownContent.value) {
+        opened.value = false
+        return
+    }
 }
 
 </script>
@@ -41,8 +71,8 @@ function chose(option: string) {
         <div class="dropdown-content-wrapper">
             <div ref="dropdownContent" v-if="opened" class="dropdown-content">
                 <ul>
-                    <li v-for="option in options" class="dropdown-item btn-item">
-                        <div @click="() => { chose(option) }"> {{ option }} </div>
+                    <li v-for="(item, index) in items" class="dropdown-item btn-item">
+                        <div @click="() => { chose(index) }"> {{ item.option }} </div>
                     </li>
                 </ul>
             </div>

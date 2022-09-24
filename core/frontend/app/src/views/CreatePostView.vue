@@ -2,30 +2,34 @@
 import { ref } from "@vue/runtime-dom";
 import Block from "../components/Block.vue";
 import Dropdown from "../components/Dropdown.vue";
+import IconCamera from "../components/icons/IconCamera.vue";
+import IconText from "../components/icons/IconText.vue";
 
 class PostItem {
     public key: number
+    public type: "text" | "photo"
+    private itemText = new PostItemText()
+    private itemPhoto = new PostItemPhoto()
 
-    constructor(key: number) {
+    constructor(key: number, type: "text" | "photo") {
         this.key = key
+        this.type = type
+    }
+
+    public getContent() {
+        if (this.type == "photo") 
+            return this.itemPhoto
+        return this.itemText
     }
 }
 
-class PostItemText extends PostItem {
+class PostItemText {
     public text: string = ""
-
-    constructor(key: number) {
-        super(key)
-    }
 }
 
-class PostItemPhoto extends PostItem {
+class PostItemPhoto {
     public photo?: File
     public title: string = ""
-
-    constructor(key: number) {
-        super(key)
-    }
 }
 
 class Post {
@@ -34,20 +38,34 @@ class Post {
 
 const post = ref(new Post)
 
+function createItemAfter(index: number) {
+    let newID = post.value.items.length
+
+    post.value.items =
+    [
+        ...post.value.items.slice(0, index + 1),
+        new PostItem(newID, "text"),
+        ...post.value.items.slice(index + 1)
+    ]
+
+    return newID
+}
+
+
 function createItem() {
     let newID = post.value.items.length
 
     post.value.items.push(
-        new PostItemText(newID)
+        new PostItem(newID, "text")
     )
 
     return newID
 }
 
-function onTextareaChange(event: KeyboardEvent) {
+function onTextareaChange(event: KeyboardEvent, afterIndex: number) {
     if (event.key === "Enter") {
         event.preventDefault()
-        let key = createItem()
+        let key = createItemAfter(afterIndex)
 
         setTimeout(() => {
              document.getElementById("textarea-" + key)?.focus()
@@ -63,6 +81,10 @@ function onTextareaChange(event: KeyboardEvent) {
     }, 0)   
 }
 
+function changeItemType(item: PostItem, newType: "text" | "photo") {
+    item.type = newType
+}
+
 </script>
 
 <template>
@@ -70,10 +92,18 @@ function onTextareaChange(event: KeyboardEvent) {
         <h1>Create post</h1>
 
         <ul id="post-content" class="post-ul">
-            <li v-for="item in post.items" :key="item.key" class="post-item">
-                <textarea rows="1" @keydown="onTextareaChange" :id="'textarea-' + item.key" />
-                <!-- <button class="btn btn-hollow">...</button> -->
-                <Dropdown :options="['Text', 'Photo']" />
+            <li v-for="(item, index) in post.items" :key="item.key">
+                <div v-if="item.type == 'text'" class="post-item">
+                    <textarea rows="1" @keydown="(event) => { onTextareaChange(event, index) }" :id="'textarea-' + item.key" />
+                    <div class="btn-hollow" @click="() => { changeItemType(item, 'photo') }">
+                        <IconCamera/>
+                    </div>
+                </div>
+                <div v-else>
+                    <div class="btn-hollow" @click="() => { changeItemType(item, 'text') }">
+                        <IconText/>
+                    </div>
+                </div>
             </li>
         </ul>
 
