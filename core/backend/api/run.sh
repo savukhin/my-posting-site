@@ -9,7 +9,7 @@ if ! cd ../../.. ; then
 fi
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-export GOPATH=$SCRIPT_DIR
+# export GOPATH=$SCRIPT_DIR
 
 echo "Set local GOPATH to" ${GOPATH}
 
