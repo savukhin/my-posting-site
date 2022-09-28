@@ -1,3 +1,5 @@
+.vscode
+
 # Logs
 logs
 *.log
@@ -107,3 +109,5 @@ dist
 ## ------ Golang ------ ##
 bin
 pkg
+
+*.pb.go

@@ -1,4 +1,4 @@
-module core
+module my-posting-site
 
 go 1.19
 

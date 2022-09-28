@@ -11,6 +11,9 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "grpc-tools": "^1.11.2",
+    "protoc-gen-ts": "^0.8.5",
+    "ts-protoc-gen": "^0.15.0",
     "vue": "^3.2.38",
     "vue-router": "^4.1.5"
   },

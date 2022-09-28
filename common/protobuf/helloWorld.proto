@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "my-posting-site/api/helloWorld;helloWorld";
+option go_package = "golang/helloWorld;helloWorld";
 
 message Request {
     string message = 1;
