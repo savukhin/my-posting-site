@@ -1,15 +1,16 @@
 syntax = "proto3";
 
 option go_package = "golang/helloWorld;helloWorld";
+package HelloWorld;
 
-message Request {
-    string message = 1;
+message RequestHello {
+    string message_hello = 1;
 }
 
-message Response {
-    string message = 1;
+message ResponseHello {
+    string message_hello = 1;
 }
 
 service HelloWorld {
-    rpc Greeting(Request) returns (Response) {}
+    rpc Greeting(RequestHello) returns (ResponseHello) {}
 }

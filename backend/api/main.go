@@ -1,20 +1,25 @@
 package main
 
 import (
+	"fmt"
 	pb "my-posting-site/common/protobuf/golang/helloWorld"
 	"net"
 
+	// "github.com/gorilla/handlers"
+	// "github.com/gorilla/mux"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/grpclog"
 )
 
 func main() {
-	listener, err := net.Listen("tcp", ":5300")
+	listener, err := net.Listen("tcp", "127.0.0.1:5300")
 
 	if err != nil {
 		grpclog.Fatalf("failed to listen: %v", err)
 	}
+
+	defer listener.Close()
 
 	opts := []grpc.ServerOption{}
 	grpcServer := grpc.NewServer(opts...)
@@ -24,14 +29,15 @@ func main() {
 }
 
 type server struct {
-	pb.HelloWorldServer
+	pb.UnimplementedHelloWorldServer
 }
 
-func (s *server) Do(c context.Context, request *pb.Request) (response *pb.Response, err error) {
-	output := string(request.Message)
-	response = &pb.Response{
-		Message: output,
-	}
+func (s *server) Greeting(c context.Context, request *pb.RequestHello) (response *pb.ResponseHello, err error) {
+	fmt.Println("Got greeting request")
 
-	return response, nil
+	output := "Hello world! Hello, " + string(request.MessageHello)
+
+	return &pb.ResponseHello{
+		MessageHello: output,
+	}, nil
 }

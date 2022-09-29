@@ -111,3 +111,9 @@ bin
 pkg
 
 *.pb.go
+
+*.cert
+*.key
+*.csr
+*.srl
+*.crt

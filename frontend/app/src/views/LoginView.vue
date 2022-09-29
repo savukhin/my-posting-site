@@ -1,4 +1,4 @@
-<script lang="ts">
+<script setup lang="ts">
 import Block from "../components/Block.vue";
 
 </script>
