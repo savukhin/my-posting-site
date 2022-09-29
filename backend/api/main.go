@@ -1,43 +1,56 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"my-posting-site/backend/api/routes"
 	pb "my-posting-site/common/protobuf/golang/helloWorld"
-	"net"
+	"net/http"
 
-	// "github.com/gorilla/handlers"
-	// "github.com/gorilla/mux"
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/grpclog"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
-func main() {
-	listener, err := net.Listen("tcp", "127.0.0.1:5300")
+func createGRPSClient(port string) (pb.HelloWorldClient, *grpc.ClientConn, error) {
+	ctx := context.Background()
+	conn, err := grpc.DialContext(ctx, "localhost:5300", grpc.WithTransportCredentials(insecure.NewCredentials()))
 
 	if err != nil {
-		grpclog.Fatalf("failed to listen: %v", err)
+		log.Fatal("connection:", err)
+		return nil, nil, err
 	}
 
-	defer listener.Close()
+	var client pb.HelloWorldClient = pb.NewHelloWorldClient(conn)
 
-	opts := []grpc.ServerOption{}
-	grpcServer := grpc.NewServer(opts...)
-
-	pb.RegisterHelloWorldServer(grpcServer, &server{})
-	grpcServer.Serve(listener)
+	return client, conn, nil
 }
 
-type server struct {
-	pb.UnimplementedHelloWorldServer
+func createRESTSerer(port string, client pb.HelloWorldClient) {
+	r := mux.NewRouter()
+	router := r.PathPrefix("/api").Subrouter()
+	routes.Routes(router, client)
+
+	credentials := handlers.AllowCredentials()
+	methods := handlers.AllowedMethods([]string{"POST", "GET"})
+	headers := handlers.AllowedHeaders([]string{"Content-Type", "X-Requested-With", "Authorization", "enctype"})
+	ttl := handlers.MaxAge(3600)
+	origins := handlers.AllowedOrigins([]string{"*"})
+
+	log.Fatal(http.ListenAndServe(
+		":"+port,
+		handlers.CORS(credentials, methods, origins, ttl, headers)(r),
+	))
 }
 
-func (s *server) Greeting(c context.Context, request *pb.RequestHello) (response *pb.ResponseHello, err error) {
-	fmt.Println("Got greeting request")
+func main() {
+	client, conn, err := createGRPSClient("5300")
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	defer conn.Close()
 
-	output := "Hello world! Hello, " + string(request.MessageHello)
-
-	return &pb.ResponseHello{
-		MessageHello: output,
-	}, nil
+	createRESTSerer("3000", client)
 }
