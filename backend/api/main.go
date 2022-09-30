@@ -1,42 +1,33 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"my-posting-site/backend/api/routes"
-	pb "my-posting-site/common/protobuf/golang/helloWorld"
+	grpc_clients "my-posting-site/backend/common/grpc"
 	"net/http"
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 )
 
-func createGRPSClient(port string) (pb.HelloWorldClient, *grpc.ClientConn, error) {
-	ctx := context.Background()
-	conn, err := grpc.DialContext(ctx, "localhost:5300", grpc.WithTransportCredentials(insecure.NewCredentials()))
-
-	if err != nil {
-		log.Fatal("connection:", err)
-		return nil, nil, err
-	}
-
-	var client pb.HelloWorldClient = pb.NewHelloWorldClient(conn)
-
-	return client, conn, nil
-}
-
-func createRESTSerer(port string, client pb.HelloWorldClient) {
+func createRESTSerer(port string, client *grpc_clients.GRPCClients) {
 	r := mux.NewRouter()
+	// router := r
 	router := r.PathPrefix("/api").Subrouter()
-	routes.Routes(router, client)
+	_, err := routes.Routes(router, client)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	credentials := handlers.AllowCredentials()
 	methods := handlers.AllowedMethods([]string{"POST", "GET"})
 	headers := handlers.AllowedHeaders([]string{"Content-Type", "X-Requested-With", "Authorization", "enctype"})
 	ttl := handlers.MaxAge(3600)
 	origins := handlers.AllowedOrigins([]string{"*"})
+
+	fmt.Println("REST server starting...")
 
 	log.Fatal(http.ListenAndServe(
 		":"+port,
@@ -45,12 +36,16 @@ func createRESTSerer(port string, client pb.HelloWorldClient) {
 }
 
 func main() {
-	client, conn, err := createGRPSClient("5300")
+	opts := make([]grpc_clients.GRPCConnectionOpt, 0)
+	// opts = append(opts, grpc_clients.GRPCConnectionOpt{Url: "localhost:5300", ServerType: grpc_clients.HelloWorld})
+	opts = append(opts, grpc_clients.GRPCConnectionOpt{Url: "127.0.0.1:5300", ServerType: grpc_clients.Auth})
+
+	client, err := grpc_clients.BuildGRPCClients(opts)
 	if err != nil {
 		log.Fatal(err)
 		return
 	}
-	defer conn.Close()
+	defer client.Close()
 
 	createRESTSerer("3000", client)
 }

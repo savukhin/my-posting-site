@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option go_package = "golang/auth;auth";
+package HelloWorld;
+
+message LoginRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message RegisterRequest {
+    string username = 1;
+    string email = 2;
+    string password = 3;
+    string password2 = 4;
+}
+
+message DefaultResponse {
+    bool success = 1;
+    string error = 2;
+    string token = 3;
+}
+
+service Authentication {
+    rpc Login(LoginRequest) returns (DefaultResponse) {}
+    rpc Register(RegisterRequest) returns (DefaultResponse) {}
+}

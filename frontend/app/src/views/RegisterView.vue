@@ -1,5 +1,22 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import Block from "../components/Block.vue";
+import { register } from "../hooks/auth"
+
+const username = ref<HTMLInputElement>()
+const email = ref<HTMLInputElement>()
+const password = ref<HTMLInputElement>()
+const password2 = ref<HTMLInputElement>()
+
+function registerClick(event: Event) {
+    event.preventDefault()
+    register(
+        username.value!.value,
+        email.value!.value,
+        password.value!.value,
+        password2.value!.value,
+    )
+}
 
 </script>
 
@@ -10,10 +27,10 @@ import Block from "../components/Block.vue";
                 <table>
                     <tr>
                         <td>
-                            <span>Login:</span>
+                            <span>Username:</span>
                         </td>
                         <td>
-                            <input name="login" id="login" placeholder="Login"/>
+                            <input ref="username" name="username" id="username" placeholder="Username"/>
                         </td>
                     </tr>
                     <tr>
@@ -21,7 +38,7 @@ import Block from "../components/Block.vue";
                             <span>Email:</span>        
                         </td>
                         <td>
-                            <input name="email" id="email" placeholder="Email"/>
+                            <input ref="email" name="email" id="email" placeholder="Email"/>
                         </td>
                     </tr>
                     <tr>
@@ -29,7 +46,7 @@ import Block from "../components/Block.vue";
                             <span>Password:</span>
                         </td>
                         <td>
-                            <input name="password" type="password" id="password" placeholder="Password"/>
+                            <input ref="password" name="password" type="password" id="password" placeholder="Password"/>
                         </td>
                     </tr>
                     <tr>
@@ -37,13 +54,13 @@ import Block from "../components/Block.vue";
                             <span>Repeat password:</span>
                         </td>
                         <td>
-                            <input name="password2" type="password" id="password2" placeholder="Password"/>
+                            <input ref="password2" name="password2" type="password" id="password2" placeholder="Password"/>
                         </td>
                     </tr>
                 </table>
             </fieldset>
             <p>Already has an account? <RouterLink to="/login">Login</RouterLink> </p>
-            <button type="submit" class="btn btn-green">Register</button>
+            <button type="submit" class="btn btn-green" @click="registerClick">Register</button>
         </form>
     </Block>
 </template>
