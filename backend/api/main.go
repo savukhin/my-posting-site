@@ -37,7 +37,6 @@ func createRESTSerer(port string, client *grpc_clients.GRPCClients) {
 
 func main() {
 	opts := make([]grpc_clients.GRPCConnectionOpt, 0)
-	// opts = append(opts, grpc_clients.GRPCConnectionOpt{Url: "localhost:5300", ServerType: grpc_clients.HelloWorld})
 	opts = append(opts, grpc_clients.GRPCConnectionOpt{Url: "127.0.0.1:5300", ServerType: grpc_clients.Auth})
 
 	client, err := grpc_clients.BuildGRPCClients(opts)

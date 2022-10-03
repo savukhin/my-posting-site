@@ -3,6 +3,7 @@ package auth_controllers
 import (
 	"context"
 	"fmt"
+	_ "my-posting-site/backend/common/models"
 	pbAuth "my-posting-site/common/protobuf/golang/auth"
 )
 
