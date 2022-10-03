@@ -1,10 +1,10 @@
 DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'ownerType') THEN
-        CREATE TYPE content_types AS ENUM 
+        CREATE TYPE ownerType AS ENUM 
         (
             'user',
-            'post', 
+            'post'
         );
     END IF;
 END$$;

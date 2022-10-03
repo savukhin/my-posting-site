@@ -1,4 +1,5 @@
-CREATE TABLE IF NOT EXISTS files {
+CREATE TABLE IF NOT EXISTS files 
+(
     id SERIAL NOT NULL,
     filepath VARCHAR(200) NOT NULL,
     title VARCHAR(200) NOT NULL,
@@ -9,5 +10,5 @@ CREATE TABLE IF NOT EXISTS files {
     updated_at TIMESTAMP DEFAULT now(),
     deleted_at TIMESTAMP,
 
-    CONSTRAINT File_PK PRIMARY KEY(id),
-}
+    CONSTRAINT File_PK PRIMARY KEY(id)
+);

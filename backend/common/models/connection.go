@@ -1,6 +1,8 @@
 package models
 
 import (
+	"errors"
+
 	_ "github.com/lib/pq"
 	// "database/sql"
 	"fmt"
@@ -12,7 +14,21 @@ import (
 var DB *sqlx.DB
 
 func init() {
-	fmt.Println("Init")
+	fmt.Println("Connecting to DB...")
+	err := Connect()
+	if err != nil {
+		fmt.Print("Error connecting DB:", err)
+		return
+	}
+	fmt.Println("Connected to DB")
+
+	err = CreateTables()
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func Connect() error {
 	host := "127.0.0.1"
 	port := "5433"
 	user := "postgres"
@@ -21,15 +37,14 @@ func init() {
 
 	dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", user, password, host, port, dbname)
 
-	fmt.Println("Connecting to DB...")
-	DB, err := sqlx.Connect("postgres", dsn)
+	result, err := sqlx.Connect("postgres", dsn)
+	DB = result
 
 	if err != nil {
-		fmt.Printf("Connect DB failed, err:%v\n", err)
-		return
+		return errors.New("connect DB failed, err:" + err.Error())
 	}
-	fmt.Println("Connected to DB")
 
 	DB.SetMaxOpenConns(20)
 	DB.SetMaxIdleConns(10)
+	return nil
 }
