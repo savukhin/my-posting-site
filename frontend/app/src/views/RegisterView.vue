@@ -2,11 +2,13 @@
 import { ref } from "vue";
 import Block from "../components/Block.vue";
 import { register } from "../hooks/auth"
+import { GenerateError, type DefaultJWTResponse, ErrorResponse } from "@/dto/defaultResponses";
 
 const username = ref<HTMLInputElement>()
 const email = ref<HTMLInputElement>()
 const password = ref<HTMLInputElement>()
 const password2 = ref<HTMLInputElement>()
+const errors = ref<string>()
 
 function registerClick(event: Event) {
     event.preventDefault()
@@ -15,7 +17,18 @@ function registerClick(event: Event) {
         email.value!.value,
         password.value!.value,
         password2.value!.value,
-    )
+    ).then((msg) => {
+        console.log(msg);
+        if (msg == undefined)
+            return
+
+        if (msg instanceof ErrorResponse) {
+            errors.value = (msg as ErrorResponse).msg
+            return
+        }
+
+        // TODO: Redirect
+    })
 }
 
 </script>
@@ -59,6 +72,7 @@ function registerClick(event: Event) {
                     </tr>
                 </table>
             </fieldset>
+            <p class="warning" :v-if="errors">{{errors}}</p>
             <p>Already has an account? <RouterLink to="/login">Login</RouterLink> </p>
             <button type="submit" class="btn btn-green" @click="registerClick">Register</button>
         </form>

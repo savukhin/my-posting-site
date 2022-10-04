@@ -15,7 +15,7 @@ type AuthServer struct {
 func generateError(err string) (*pbAuth.DefaultResponse, error) {
 	return &pbAuth.DefaultResponse{
 		Success: false,
-		Error:   "No user with this login/password",
+		Error:   err,
 	}, nil
 }
 
@@ -38,11 +38,15 @@ func (server *AuthServer) Login(ctx context.Context, req *pbAuth.LoginRequest) (
 func (server *AuthServer) Register(ctx context.Context, req *pbAuth.RegisterRequest) (*pbAuth.DefaultResponse, error) {
 	user, err := mappers.RegisterRequestToUser(req)
 
+	if err := user.IsNotExists(); err != nil {
+		return generateError(err.Error())
+	}
+
 	if err != nil {
 		return generateError(err.Error())
 	}
 
-	err = user.Save()
+	_, err = user.Save()
 	if err != nil {
 		return generateError(err.Error())
 	}

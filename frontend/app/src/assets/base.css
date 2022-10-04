@@ -23,6 +23,7 @@
   --background-green: rgb(77, 223, 94);
   --text-link-color: hsla(160, 100%, 37%, 1);
   --text-link-color-choosen: rgb(161, 236, 211);
+  --text-warning: rgb(210, 78, 78);
 }
 
 /* semantic color variables for this project */

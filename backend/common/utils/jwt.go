@@ -27,7 +27,7 @@ type Token struct {
 func GenerateJWT(user *models.User) string {
 	expirationTime := time.Now().Local().Add(ExpirationDuration)
 
-	tk := &Token{UserID: user.ID, Email: user.Email, TimeExp: expirationTime}
+	tk := &Token{UserID: int(user.ID), Email: user.Email, TimeExp: expirationTime}
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
 	tokenString, _ := token.SignedString(secret)
 

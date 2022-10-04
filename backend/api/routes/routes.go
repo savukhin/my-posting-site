@@ -11,6 +11,7 @@ import (
 
 func authRoutes(router *mux.Router, client pbAuth.AuthenticationClient) *mux.Router {
 	router.HandleFunc("/login", api_controllers.Login(client))
+	router.HandleFunc("/register", api_controllers.Register(client))
 
 	return router
 }

@@ -1,6 +1,8 @@
 package dto
 
-import pbAuth "my-posting-site/common/protobuf/golang/auth"
+import (
+	pbAuth "my-posting-site/common/protobuf/golang/auth"
+)
 
 type Login struct {
 	Username string `json:"username"`
