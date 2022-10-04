@@ -36,6 +36,7 @@ func createRESTSerer(port string, client *grpc_clients.GRPCClients) {
 }
 
 func main() {
+	fmt.Println("API service starting...")
 	opts := make([]grpc_clients.GRPCConnectionOpt, 0)
 	opts = append(opts, grpc_clients.GRPCConnectionOpt{Url: "127.0.0.1:5300", ServerType: grpc_clients.Auth})
 

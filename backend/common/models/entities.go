@@ -5,17 +5,6 @@ import (
 	"time"
 )
 
-type User struct {
-	ID        int          `db:"id"`
-	Username  string       `db:"username"`
-	Email     string       `db:"email"`
-	Password  string       `db:"password"`
-	AvatarID  int          `db:"avatarId"`
-	CreatedAt time.Time    `json:"createdAt"`
-	UpdatedAt time.Time    `json:"updatedAt"`
-	DeletedAt sql.NullTime `json:"deletedAt"`
-}
-
 type FileType string
 
 const (

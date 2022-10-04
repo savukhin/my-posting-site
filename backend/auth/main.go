@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	fmt.Println("Auth service starting...")
 	server, err := grpc_clients.NewServer().
 		AddPort(":5300").
 		AddAuthServer(&auth_controllers.AuthServer{}).
