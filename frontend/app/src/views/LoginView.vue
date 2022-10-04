@@ -1,5 +1,32 @@
 <script setup lang="ts">
+import { ErrorResponse } from "@/dto/defaultResponses";
+import { login } from "@/hooks/auth";
+import router from "@/router";
+import { ref } from "vue";
 import Block from "../components/Block.vue";
+
+const username = ref<HTMLInputElement>()
+const password = ref<HTMLInputElement>()
+const errors = ref<string>()
+
+function loginClick(event: Event) {
+    event.preventDefault()
+    login(
+        username.value!.value,
+        password.value!.value,
+    ).then((msg) => {
+        console.log(msg);
+        if (msg == undefined)
+            return
+
+        if (msg instanceof ErrorResponse) {
+            errors.value = (msg as ErrorResponse).msg
+            return
+        }
+
+        router.push("/profile/1")
+    })
+}
 
 </script>
 
@@ -13,7 +40,7 @@ import Block from "../components/Block.vue";
                             <span>Login:</span>
                         </td>
                         <td>
-                            <input name="login" id="login" placeholder="Login"/>
+                            <input ref="username" name="username" id="username" placeholder="Username"/>
                         </td>
                     </tr>
                     <tr>
@@ -21,13 +48,14 @@ import Block from "../components/Block.vue";
                             <span>Password:</span>
                         </td>
                         <td>
-                            <input name="password" type="password" id="login" placeholder="Password"/>
+                            <input ref="password" name="password" type="password" id="login" placeholder="Password"/>
                         </td>
                     </tr>
                 </table>
             </fieldset>
+            <p class="warning" :v-if="errors">{{errors}}</p>
             <p>Has no account? <RouterLink to="/register">Register</RouterLink> </p>
-            <button type="submit" class="btn btn-green">Login</button>
+            <button type="submit" class="btn btn-green" @click="loginClick">Login</button>
         </form>
     </Block>
 </template>

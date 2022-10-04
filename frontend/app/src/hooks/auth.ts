@@ -22,10 +22,33 @@ export function register(username: string, email: string, password: string, pass
             if (!response.has_error) {
                 return undefined
             }
+            return new ErrorResponse(response.msg)
+        })
+}
 
-            // console.log(response);
+export function login(username: string, password: string) {
+    let request: Login = {username, password}
+
+    return axios.post<DefaultJWTResponse>("/api/auth/login", request)
+        .then(response => {
+            if (response.status != 200) {
+                return undefined
+            }
+            let data = response.data as DefaultJWTResponse
+
+            localStorage.setItem("token", data.token)
             
+            return data
+        })
+        .catch((err: AxiosError) => {
+            if (err.response == undefined) {
+                return undefined
+            }
             
+            let response = err.response.data as DefaultJWTResponse
+            if (!response.has_error) {
+                return undefined
+            }
             return new ErrorResponse(response.msg)
         })
 }
