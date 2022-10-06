@@ -76,6 +76,14 @@ function textOnChange(event: InputEvent, item: PostItem) {
     item.setText(target.value)
 }
 
+function titleOnChange(event: InputEvent, item: PostItem) {
+    if (event.target == null) 
+        return
+    
+    let target = event.target as HTMLInputElement
+    item.setTitle(target.value)
+}
+
 function createPostClick() {
     let value = post.value as Post
     if (!value) {
@@ -121,7 +129,7 @@ function createPostClick() {
                                 <img v-else :src="item.itemPhoto.photoURL" />
                             </div>
                         </label>
-                        <input type="text" name="" :id="'title-'+item.key"/>
+                        <input @change="(event) => { titleOnChange(event, item) }" type="text" name="" :id="'title-'+item.key"/>
                     </div>
                     <div class="btn-hollow" @click="() => { changeItemType(item, 'text') }">
                         <IconText/>

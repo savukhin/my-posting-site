@@ -70,8 +70,7 @@ func (post *Post) Save(files []*File) error {
 
 	for _, file := range files {
 		file.OwnerID = postId
-		err := file.Save()
-		fmt.Println("Creation file error:", err)
+		file.Save()
 	}
 
 	return nil

@@ -10,6 +10,8 @@ export function createPost(post: Post) {
     }
 
     let formData = post.toFormData()
+    console.log(formData.get("0_title"));
+    
     
 
     return axios.post<DefaultJWTResponse>("/api/post/create_post", formData, {

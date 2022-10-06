@@ -36,6 +36,11 @@ export class PostItem {
         return this
     }
 
+    public setTitle(title: string) {
+        this.itemPhoto.title = title
+        return this
+    }
+
     public GetPhotoName() {
         return "photo_number_" + this.key
     }
