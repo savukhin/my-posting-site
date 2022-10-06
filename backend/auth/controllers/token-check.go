@@ -13,10 +13,10 @@ func generateUserError(err string) (*pbAuth.UserResponse, error) {
 	}, nil
 }
 
-func (server *AuthServer) JWTCheck(ctx context.Context, req *pbAuth.JWTRequest) (*pbAuth.UserResponse, error) {
+func (server *AuthServer) CheckJWT(ctx context.Context, req *pbAuth.JWTRequest) (*pbAuth.UserResponse, error) {
 	token, err := utils.UnpackJWT(req.Token)
 	if err != nil {
-		return generateUserError("No user with this login/password")
+		return generateUserError("No user with this token")
 	}
 
 	return &pbAuth.UserResponse{

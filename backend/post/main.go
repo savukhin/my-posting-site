@@ -7,9 +7,11 @@ import (
 )
 
 func main() {
-	fmt.Println("Auth service starting...")
+	defer post_controllers.Client.Close()
+
+	fmt.Println("Post service starting...")
 	server, err := grpc_clients.NewServer().
-		AddPort(":3400").
+		AddPort(":3200").
 		AddPostingServer(&post_controllers.PostServer{}).
 		Build()
 
