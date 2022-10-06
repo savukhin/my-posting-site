@@ -9,4 +9,3 @@ export interface Register {
     password: string
     password2: string
 }
-

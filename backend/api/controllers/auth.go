@@ -79,3 +79,34 @@ func Register(client pbAuth.AuthenticationClient) func(http.ResponseWriter, *htt
 		res.Write(b)
 	}
 }
+
+func CheckToken(client pbAuth.AuthenticationClient) func(http.ResponseWriter, *http.Request) {
+	return func(res http.ResponseWriter, req *http.Request) {
+		jwt := req.Header.Get("Authorization")
+		if jwt == "" {
+			api_utils.ResponseError(res, errors.New("no token provided"), http.StatusBadRequest)
+			return
+		}
+
+		grpcResponse, err := client.CheckJWT(context.Background(), &pbAuth.JWTRequest{Token: jwt})
+
+		res.Header().Set("Content-Type", "application/json")
+
+		response := dto.User{}
+
+		if err != nil {
+			api_utils.ResponseError(res, err, http.StatusBadRequest)
+			return
+		} else if grpcResponse.Error != "" {
+			api_utils.ResponseError(res, errors.New(grpcResponse.Error), http.StatusBadRequest)
+			return
+		} else {
+			response.ID = int(grpcResponse.UserId)
+			response.HasError = false
+			response.Msg = "Succesfully register"
+		}
+
+		b, _ := json.Marshal(response)
+		res.Write(b)
+	}
+}

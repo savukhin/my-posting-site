@@ -31,24 +31,25 @@ if (typeof profileId != "string") {
 }
 
 if (profileId == undefined) {
-    console.log(props.user);
-    
     if (props.user != undefined) {
         router.push("/profile/" + props.user.id.toString())
+        setTimeout(() => {location.reload() }, 10)
     } else {
         notFoundUser()
     }
+
+} else {
+
+    getProfile(+profileId).then((value) => {
+        if (value == undefined || value instanceof ErrorResponse) {
+            notFoundUser()
+            return
+        }
+
+        isLoading.value = false
+        profile.value = value
+    })
 }
-
-getProfile(+profileId).then((value) => {
-    if (value == undefined || value instanceof ErrorResponse) {
-        notFoundUser()
-        return
-    }
-
-    isLoading.value = false
-    profile.value = value
-})
 
 </script>
 

@@ -1,24 +1,51 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { RouterLink, RouterView } from "vue-router";
+import { ErrorResponse } from "./dto/defaultResponses";
 import { User } from "./dto/User";
+import { checkJWT } from "./hooks/user";
 
-  const user = ref(new User)
+  const user = ref<User>()
 
   const isLoading = ref(true)
   const isLogged = ref(false)
 
-  setTimeout(() => {
-    isLoading.value = false
-    isLogged.value = true
-    user.value = new User()
-    user.value.avatarURL = ""
-    user.value.id = 0
-    user.value.username = "saveliy"
+  // setTimeout(() => {
+  //   isLoading.value = false
+  //   isLogged.value = true
+  //   user.value = new User()
+  //   user.value.avatarURL = ""
+  //   user.value.id = 0
+  //   user.value.username = "saveliy"
 
-    console.log("User generated");
+  //   console.log("User generated");
     
-  }, 1)
+  // }, 1)
+
+  function userNotFound() {
+    isLoading.value = false
+    isLogged.value = false
+    user.value = undefined
+  }
+
+  let checking = checkJWT()
+  if (checking == false) {
+    userNotFound()
+  } else {
+    checking.then(value => {
+      if (value == undefined || value instanceof ErrorResponse) {
+        userNotFound()
+        return
+      } 
+
+      isLogged.value = true
+      user.value = new User()
+      user.value.id = value.id
+      
+      setTimeout(() => {isLoading.value = false})
+      
+    })
+  }
 </script>
 
 <template>

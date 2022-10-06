@@ -16,6 +16,12 @@ type Register struct {
 	PasswordRepeat string `json:"password2"`
 }
 
+type User struct {
+	HasError bool   `json:"has_error"`
+	Msg      string `json:"msg"`
+	ID       int    `json:"id"`
+}
+
 func (data *Login) ToProtobuf() *pbAuth.LoginRequest {
 	return &pbAuth.LoginRequest{
 		Username: data.Username,
