@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+option go_package = "golang/post;post";
+package Post;
+
+message PostElement {
+    optional string text = 1;
+    optional string photo_url = 2;
+    optional string photo_title = 3;
+    bool isText = 4;
+}
+
+message Post {
+    string username = 1;
+    string password = 2;
+    repeated PostElement elements = 3;
+}
+
+message PostRequest {
+    string token = 1;
+    Post post = 4;
+}
+
+message GetPostRequest {
+    int32 id = 1;
+}
+
+message PostResponse {
+    bool success = 1;
+    string error = 2;
+    string token = 3;
+    Post post = 4;
+}
+
+message DefaultResponse {
+    bool success = 1;
+    string error = 2;
+    string token = 3;
+}
+
+service Posting {
+    rpc CreatePost(PostRequest) returns (DefaultResponse) {}
+    rpc GetPost(GetPostRequest) returns (PostResponse) {}
+}

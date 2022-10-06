@@ -4,6 +4,7 @@ import (
 	"context"
 	pbAuth "my-posting-site/common/protobuf/golang/auth"
 	pbHelloWorld "my-posting-site/common/protobuf/golang/helloWorld"
+	pbPost "my-posting-site/common/protobuf/golang/post"
 	pbUser "my-posting-site/common/protobuf/golang/user"
 	"time"
 
@@ -18,6 +19,7 @@ type GRPCConnection struct {
 	helloWorldClient     pbHelloWorld.HelloWorldClient
 	authenticationClient pbAuth.AuthenticationClient
 	userClient           pbUser.UserClient
+	postingClient        pbPost.PostingClient
 }
 
 type GRPCConnectionOpt struct {
@@ -49,6 +51,8 @@ func createGRPCConnection(opt GRPCConnectionOpt) (*GRPCConnection, error) {
 		grpcConnection.authenticationClient = pbAuth.NewAuthenticationClient(conn)
 	case User:
 		grpcConnection.userClient = pbUser.NewUserClient(conn)
+	case Post:
+		grpcConnection.postingClient = pbPost.NewPostingClient(conn)
 	}
 
 	return grpcConnection, err
@@ -59,6 +63,7 @@ type GRPCClients struct {
 	helloWorldClient     *pbHelloWorld.HelloWorldClient
 	authenticationClient *pbAuth.AuthenticationClient
 	userClient           *pbUser.UserClient
+	postingClient        *pbPost.PostingClient
 }
 
 func (clients *GRPCClients) addClient(url string, serverType ServerType) error {
@@ -72,6 +77,8 @@ func (clients *GRPCClients) addClient(url string, serverType ServerType) error {
 			clients.authenticationClient = &conn.authenticationClient
 		case User:
 			clients.userClient = &conn.userClient
+		case Post:
+			clients.postingClient = &conn.postingClient
 		}
 	}
 
@@ -123,6 +130,10 @@ func (clients *GRPCClients) GetAuthClient() *pbAuth.AuthenticationClient {
 
 func (clients *GRPCClients) GetUserClient() *pbUser.UserClient {
 	return clients.userClient
+}
+
+func (clients *GRPCClients) GetPostingClient() *pbPost.PostingClient {
+	return clients.postingClient
 }
 
 func (clients *GRPCClients) Close() {
