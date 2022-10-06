@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"my-posting-site/backend/api/dto"
 	api_utils "my-posting-site/backend/api/utils"
@@ -92,7 +91,6 @@ func CreatePost(client pbPost.PostingClient) func(http.ResponseWriter, *http.Req
 
 func GetPost(client pbPost.PostingClient) func(http.ResponseWriter, *http.Request) {
 	return func(res http.ResponseWriter, req *http.Request) {
-		fmt.Println("grpcResponse, err")
 		vars := mux.Vars(req)
 		post_id, err := strconv.Atoi(vars["post_id"])
 		if err != nil {
@@ -140,7 +138,6 @@ func GetFile(client pbPost.PostingClient) func(http.ResponseWriter, *http.Reques
 			return
 		}
 
-		b, _ := json.Marshal(grpcResponse.File)
-		res.Write(b)
+		res.Write(grpcResponse.File)
 	}
 }

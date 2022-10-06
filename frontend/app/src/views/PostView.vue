@@ -69,7 +69,7 @@ if (typeof postId != "string") {
                             <div class="upload-photo-img">
                                 <!-- <strong v-if="!item.photo_url">+</strong> -->
                                 <!-- <img v-else :src="item.itemPhoto.photoURL" /> -->
-                                <img :src="item.photo_url" />
+                                <img :src="'http://127.0.0.1:3000/api/post/get_file/' +item.photo_url" />
                             </div>
                         </label>
                         <p> {{ item.photo_title }} </p>
