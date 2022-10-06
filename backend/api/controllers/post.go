@@ -49,7 +49,7 @@ func CreatePost(client pbPost.PostingClient) func(http.ResponseWriter, *http.Req
 			}
 
 			data.Elements[i].Title = req.FormValue(prefix + "title")
-			data.Elements[i].PhotoFileName = req.FormValue(prefix + "photo")
+			data.Elements[i].PhotoFileName = prefix + "photo"
 
 			key := data.Elements[i].PhotoFileName
 			file, _, err := req.FormFile(key)
