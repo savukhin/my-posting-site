@@ -15,6 +15,18 @@ message RegisterRequest {
     string password2 = 4;
 }
 
+message JWTRequest {
+    string token = 1;
+}
+
+message UserResponse {
+    bool success = 1;
+    string error = 2;
+    string token = 3;
+    string expiration = 4;
+    int32 userId = 5;
+}
+
 message DefaultResponse {
     bool success = 1;
     string error = 2;
@@ -24,4 +36,5 @@ message DefaultResponse {
 service Authentication {
     rpc Login(LoginRequest) returns (DefaultResponse) {}
     rpc Register(RegisterRequest) returns (DefaultResponse) {}
+    rpc CheckJWT(JWTRequest) returns (UserResponse) {}
 }

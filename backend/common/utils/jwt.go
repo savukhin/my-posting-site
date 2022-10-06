@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"errors"
 	"my-posting-site/backend/common/models"
 	"time"
 
@@ -32,4 +33,32 @@ func GenerateJWT(user *models.User) string {
 	tokenString, _ := token.SignedString(secret)
 
 	return tokenString
+}
+
+func UnpackJWT(tokenHeader string) (*Token, error) {
+	if tokenHeader == "" {
+		return nil, errors.New("token is not present")
+	}
+
+	tk := &Token{}
+	tokenValue := tokenHeader
+	token, err := jwt.ParseWithClaims(tokenValue, tk, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+
+	if err != nil {
+		return nil, errors.New("malformed authentication token")
+	}
+
+	diff := time.Until(tk.TimeExp)
+
+	if diff < 0 {
+		return nil, errors.New("token expired")
+	}
+
+	if !token.Valid {
+		return nil, errors.New("invalid token")
+	}
+
+	return tk, nil
 }
