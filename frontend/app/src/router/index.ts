@@ -33,7 +33,7 @@ const router = createRouter({
       component: () => import("../views/ProfileView.vue")
     },
     {
-      path: "/profile/:id",
+      path: "/profile/:profile_id",
       name: "profile-numbered",
       component: () => import("../views/ProfileView.vue")
     },

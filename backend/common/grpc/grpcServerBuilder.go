@@ -4,6 +4,7 @@ import (
 	"errors"
 	pbAuth "my-posting-site/common/protobuf/golang/auth"
 	pbHelloWorld "my-posting-site/common/protobuf/golang/helloWorld"
+	pbUser "my-posting-site/common/protobuf/golang/user"
 )
 
 type GRPCServerBuilder struct {
@@ -11,6 +12,7 @@ type GRPCServerBuilder struct {
 	serverType       ServerType
 	helloWorldServer *pbHelloWorld.HelloWorldServer
 	authServer       *pbAuth.AuthenticationServer
+	userServer       *pbUser.UserServer
 }
 
 func NewServer() *GRPCServerBuilder {
@@ -39,6 +41,12 @@ func (builder *GRPCServerBuilder) AddAuthServer(server pbAuth.AuthenticationServ
 	return builder
 }
 
+func (builder *GRPCServerBuilder) AddUserServer(server pbUser.UserServer) *GRPCServerBuilder {
+	builder.serverType = User
+	builder.userServer = &server
+	return builder
+}
+
 func (builder *GRPCServerBuilder) Valid() error {
 	if builder.address == "" {
 		return errors.New("no address provided")
@@ -51,6 +59,10 @@ func (builder *GRPCServerBuilder) Valid() error {
 	case Auth:
 		if builder.authServer == nil {
 			return errors.New("no auth server provided")
+		}
+	case User:
+		if builder.userServer == nil {
+			return errors.New("no user server provided")
 		}
 	}
 
@@ -73,6 +85,7 @@ func (builder *GRPCServerBuilder) Build() (*GRPCServer, error) {
 
 	server.addHelloWorldServer(builder.helloWorldServer)
 	server.addAuthServer(builder.authServer)
+	server.addUserServer(builder.userServer)
 
 	err = server.registerServer()
 

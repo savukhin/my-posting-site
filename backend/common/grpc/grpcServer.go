@@ -4,6 +4,7 @@ import (
 	"errors"
 	pbAuth "my-posting-site/common/protobuf/golang/auth"
 	pbHelloWorld "my-posting-site/common/protobuf/golang/helloWorld"
+	pbUser "my-posting-site/common/protobuf/golang/user"
 	"net"
 
 	"google.golang.org/grpc"
@@ -14,6 +15,7 @@ type ServerType string
 const (
 	HelloWorld ServerType = "helloWorld"
 	Auth       ServerType = "auth"
+	User       ServerType = "user"
 )
 
 type GRPCServer struct {
@@ -23,6 +25,7 @@ type GRPCServer struct {
 	serverType       ServerType
 	helloWorldServer *pbHelloWorld.HelloWorldServer
 	authServer       *pbAuth.AuthenticationServer
+	userServer       *pbUser.UserServer
 }
 
 // type HelloWorldServer struct {
@@ -60,6 +63,10 @@ func (server *GRPCServer) addHelloWorldServer(serv *pbHelloWorld.HelloWorldServe
 	server.helloWorldServer = serv
 }
 
+func (server *GRPCServer) addUserServer(serv *pbUser.UserServer) {
+	server.userServer = serv
+}
+
 func (server *GRPCServer) registerServer() error {
 	switch server.serverType {
 	case HelloWorld:
@@ -73,6 +80,11 @@ func (server *GRPCServer) registerServer() error {
 			return errors.New("no auth server provided")
 		}
 		pbAuth.RegisterAuthenticationServer(server.grpcServer, *server.authServer)
+	case User:
+		if server.userServer == nil {
+			return errors.New("no user server provided")
+		}
+		pbUser.RegisterUserServer(server.grpcServer, *server.userServer)
 	}
 
 	return nil

@@ -1,5 +1,7 @@
-export class Profile {
-    id = 0
-    username = ""
-    avatarURL: string | undefined;
+export interface Profile {
+    has_error: boolean
+	msg: string
+    user_id: number
+    username: string
+    avatar_url: string | undefined;
 }

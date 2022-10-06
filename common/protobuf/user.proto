@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "golang/user;user";
+package User;
+
+message ProfileRequest {
+    int32 id = 1;
+}
+
+message ProfileResponse {
+    bool success = 1;
+    string error = 2;
+    int32 id = 3;
+    string username = 4;
+    string avatarURL = 5;
+}
+
+service User {
+    rpc GetProfile(ProfileRequest) returns (ProfileResponse) {}
+}

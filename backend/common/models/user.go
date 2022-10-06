@@ -38,11 +38,7 @@ func (user *User) ComparePassword(unhashedPassword string) error {
 }
 
 func (user *User) Valid() error {
-	if err := validator.Validate(user); err != nil {
-		return err
-	}
-	fmt.Println("password ok")
-	return nil
+	return validator.Validate(user)
 }
 
 func (user *User) update() (*User, error) {
@@ -89,6 +85,14 @@ func (user *User) IsNotExists() error {
 		return errors.New("user with this username is already exists")
 	}
 	return errors.New("user with this email is already exists")
+}
+
+func GetUserById(id int32) (*User, error) {
+	user := &User{}
+	query := fmt.Sprintf("SELECT * FROM users WHERE id='%d' LIMIT 1", id)
+	err := DB.Get(user, query)
+
+	return user, err
 }
 
 func GetUserByUsername(username string) (*User, error) {

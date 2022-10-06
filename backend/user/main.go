@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
-	auth_controllers "my-posting-site/backend/auth/controllers"
 	grpc_clients "my-posting-site/backend/common/grpc"
+	user_controllers "my-posting-site/backend/user/controllers"
 )
 
 func main() {
-	fmt.Println("Auth service starting...")
+	fmt.Println("User service starting...")
 	server, err := grpc_clients.NewServer().
-		AddPort(":3400").
-		AddAuthServer(&auth_controllers.AuthServer{}).
+		AddPort(":3100").
+		AddUserServer(&user_controllers.UserServer{}).
 		Build()
 
 	if err != nil {
