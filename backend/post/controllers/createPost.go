@@ -34,13 +34,6 @@ func generateError(err string) (*pbPost.DefaultResponse, error) {
 	}, nil
 }
 
-func generatePostError(err string) (*pbPost.PostResponse, error) {
-	return &pbPost.PostResponse{
-		Success: false,
-		Error:   err,
-	}, nil
-}
-
 func (server *PostServer) CreatePost(ctx context.Context, req *pbPost.CreatePostRequest) (*pbPost.DefaultResponse, error) {
 	client := (*Client.GetAuthClient())
 	grpcResponse, err := client.CheckJWT(context.Background(), &pbAuth.JWTRequest{Token: req.Token})

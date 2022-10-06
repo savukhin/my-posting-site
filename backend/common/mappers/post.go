@@ -90,3 +90,36 @@ func CreatePostRequestToPost(req *pbPost.CreatePostRequest, userId int, savePath
 
 	return post, files, nil
 }
+
+func PostModelToPostResponse(post *models.Post, files []*models.File) (*pbPost.PostResponse, error) {
+	if post == nil || files == nil {
+		return nil, errors.New("passed params is nil")
+	}
+
+	result := &pbPost.PostResponse{
+		Success:  true,
+		Elements: make([]*pbPost.PostResponseElement, 0),
+	}
+
+	for _, file := range files {
+		elem := &pbPost.PostResponseElement{}
+		if file.Type == models.TextFile {
+			elem.IsText = true
+			byteArray, err := os.ReadFile(file.Path)
+			if err != nil {
+				continue
+			}
+			s := string(byteArray)
+			elem.Text = &s
+
+		} else {
+			elem.IsText = false
+			elem.PhotoTitle = &file.Title
+			elem.PhotoUrl = &file.Path
+		}
+
+		result.Elements = append(result.Elements, elem)
+	}
+
+	return result, nil
+}

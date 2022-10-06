@@ -4,12 +4,15 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"my-posting-site/backend/api/dto"
 	api_utils "my-posting-site/backend/api/utils"
 	pbPost "my-posting-site/common/protobuf/golang/post"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 func CreatePost(client pbPost.PostingClient) func(http.ResponseWriter, *http.Request) {
@@ -83,6 +86,61 @@ func CreatePost(client pbPost.PostingClient) func(http.ResponseWriter, *http.Req
 		response := dto.FromPostDefaultResponse(grpcResponse)
 
 		b, _ := json.Marshal(response)
+		res.Write(b)
+	}
+}
+
+func GetPost(client pbPost.PostingClient) func(http.ResponseWriter, *http.Request) {
+	return func(res http.ResponseWriter, req *http.Request) {
+		fmt.Println("grpcResponse, err")
+		vars := mux.Vars(req)
+		post_id, err := strconv.Atoi(vars["post_id"])
+		if err != nil {
+			api_utils.ResponseError(res, err, http.StatusBadRequest)
+			return
+		}
+
+		grpcResponse, err := client.GetPost(context.Background(), &pbPost.GetPostRequest{Id: int32(post_id)})
+
+		res.Header().Set("Content-Type", "application/json")
+
+		if err != nil {
+			api_utils.ResponseError(res, err, http.StatusBadRequest)
+			return
+		}
+		if !grpcResponse.Success {
+			api_utils.ResponseError(res, errors.New(grpcResponse.Error), http.StatusBadRequest)
+			return
+		}
+
+		b, _ := json.Marshal(grpcResponse)
+		res.Write(b)
+	}
+}
+
+func GetFile(client pbPost.PostingClient) func(http.ResponseWriter, *http.Request) {
+	return func(res http.ResponseWriter, req *http.Request) {
+		vars := mux.Vars(req)
+		filepath := vars["filepath"]
+		if filepath == "" {
+			api_utils.ResponseError(res, errors.New("no filepath provided"), http.StatusBadRequest)
+			return
+		}
+
+		grpcResponse, err := client.GetFile(context.Background(), &pbPost.GetFileRequest{Path: filepath})
+
+		res.Header().Set("Content-Type", "image/jpeg")
+
+		if err != nil {
+			api_utils.ResponseError(res, err, http.StatusBadRequest)
+			return
+		}
+		if !grpcResponse.Success {
+			api_utils.ResponseError(res, errors.New(grpcResponse.Error), http.StatusBadRequest)
+			return
+		}
+
+		b, _ := json.Marshal(grpcResponse.File)
 		res.Write(b)
 	}
 }

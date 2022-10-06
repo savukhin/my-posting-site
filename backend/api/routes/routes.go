@@ -27,6 +27,8 @@ func userRoutes(router *mux.Router, client pbUser.UserClient) *mux.Router {
 
 func postRoutes(router *mux.Router, client pbPost.PostingClient) *mux.Router {
 	router.HandleFunc("/create_post", api_controllers.CreatePost(client)).Methods(http.MethodPost)
+	router.HandleFunc("/get_post/{post_id:[0-9]+}", api_controllers.GetPost(client)).Methods(http.MethodGet)
+	router.HandleFunc("/get_file/{filepath:.*}", api_controllers.GetFile(client)).Methods(http.MethodGet)
 
 	return router
 }

@@ -23,11 +23,17 @@ message GetPostRequest {
     int32 id = 1;
 }
 
+message PostResponseElement {
+    optional string text = 1;
+    optional string photo_url = 2;
+    optional string photo_title = 3;
+    bool is_text = 4;
+}
+
 message PostResponse {
     bool success = 1;
     string error = 2;
-    string token = 3;
-    Post post = 4;
+    repeated PostResponseElement elements = 3;
 }
 
 message DefaultResponse {
@@ -36,7 +42,18 @@ message DefaultResponse {
     int32 post_id = 3;
 }
 
+message GetFileRequest {
+    string path = 1;
+}
+
+message GetFileResponse {
+    bool success = 1;
+    string error = 2;
+    bytes file = 3;
+}
+
 service Posting {
     rpc CreatePost(CreatePostRequest) returns (DefaultResponse) {}
     rpc GetPost(GetPostRequest) returns (PostResponse) {}
+    rpc GetFile(GetFileRequest) returns (GetFileResponse) {}
 }

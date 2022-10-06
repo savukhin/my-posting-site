@@ -1,49 +1,78 @@
 <script setup lang="ts">
-import { Post, PostItem, PostItemPhoto } from "@/dto/Post";
+// import { Post, PostItem, PostItemPhoto } from "@/dto/GPost";
 import { onMounted, ref } from "@vue/runtime-dom";
 import { useRoute } from "vue-router";
 import Block from "../components/Block.vue";
 import Dropdown from "../components/Dropdown.vue";
 import IconCamera from "../components/icons/IconCamera.vue";
 import IconText from "../components/icons/IconText.vue";
+import type { PostResponse } from "@/dto/GetPost";
+import { getPost } from "@/hooks/post";
+import { ErrorResponse } from "@/dto/defaultResponses";
+import { User } from "@/dto/User";
+
+const props = defineProps({
+    user: {
+        type: User,
+        required: false,
+    }
+})
+
+const post = ref<PostResponse>()
+const isLoading = ref(true)
+const error = ref<string>()
 
 const route = useRoute()
+function notFoundPost() {
+    isLoading.value = false
+    post.value = undefined
+}
+
 const postId = route.params.postId
+if (typeof postId != "string") {
+    notFoundPost()
+} else if (postId == undefined) {
+    notFoundPost()
+} else {
+    getPost(+postId).then(value => {
+        console.log(value);
+        
+        isLoading.value = false
 
-const post = ref(new Post)
-
-setTimeout(() => {
-    post.value = new Post()
-
-    post.value.items.push(
-        new PostItem(1, "text").setText("Paragraph 1"),
-        new PostItem(2, "text").setText("text 1"),
-        new PostItem(3, "text").setText("Paragraph 2"),
-        new PostItem(4, "photo").setPhoto("Google logo", "https://www.google.ru/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"),
-        new PostItem(5, "text").setText("text 2"),
-    )
-}, 300)
+        if (value == undefined) {
+            error.value = "This post doesn't exists!"
+        } else if (value instanceof ErrorResponse) {
+            error.value = ( value.msg == "" ? "Unknown error" : value.msg )
+        } else {
+            post.value = value
+        }
+    })
+}
 
 </script>
 
 <template>
-    <Block>
+    <Block v-if="!isLoading && error">
+        <h1> {{ error }}</h1>
+    </Block>
+    <Block v-if="!isLoading && post">
         <h1>Post #{{ postId }}</h1>
 
         <ul id="post-content" class="post-ul">
-            <li v-for="(item, index) in post.items" :key="item.key">
-                <div v-if="item.type == 'text'" class="post-item">
-                    <span> {{ item.itemText.text }} </span>
+            <li v-for="(item, index) in post.elements" :key="index">
+                <div v-if="item.is_text" class="post-item">
+                    <span> {{ item.text }} </span>
                 </div>
                 <div v-else class="post-item">
                     <div class="post-item-photo">
-                        <label :for="'photo-'+item.key">
+                        <label :for="'photo-'+index">
                             <div class="upload-photo-img">
-                                <strong v-if="!item.itemPhoto.photoURL">+</strong>
-                                <img v-else :src="item.itemPhoto.photoURL" />
+                                <!-- <strong v-if="!item.photo_url">+</strong> -->
+                                <!-- <img v-else :src="item.itemPhoto.photoURL" /> -->
+                                <img :src="item.photo_url" />
                             </div>
                         </label>
-                        <p> {{ item.itemPhoto.title }} </p>
+                        <p> {{ item.photo_title }} </p>
                     </div>
                 </div>
             </li>

@@ -1,5 +1,6 @@
 import type { Login, Register } from "@/dto/Auth";
-import { GenerateError, type DefaultJWTResponse, ErrorResponse } from "@/dto/defaultResponses";
+import { GenerateError, type DefaultResponse, ErrorResponse } from "@/dto/defaultResponses";
+import type { PostResponse } from "@/dto/GetPost";
 import type { Post } from "@/dto/Post";
 import axios, { AxiosError } from "axios"
 
@@ -10,11 +11,8 @@ export function createPost(post: Post) {
     }
 
     let formData = post.toFormData()
-    console.log(formData.get("0_title"));
-    
-    
 
-    return axios.post<DefaultJWTResponse>("/api/post/create_post", formData, {
+    return axios.post<DefaultResponse>("/api/post/create_post", formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': token
@@ -25,17 +23,39 @@ export function createPost(post: Post) {
                 return undefined
             }
             
-            return response.data as DefaultJWTResponse
+            return response.data as DefaultResponse
         })
         .catch((err: AxiosError) => {
             if (err.response == undefined) {
                 return undefined
             }
             
-            let response = err.response.data as DefaultJWTResponse
+            let response = err.response.data as DefaultResponse
             if (!response.has_error) {
                 return undefined
             }
             return new ErrorResponse(response.msg)
+        })
+}
+
+export function getPost(id: number) {
+    return axios.get<PostResponse>("/api/post/get_post/" + id)
+        .then(response => {
+            if (response.status != 200) {
+                return undefined
+            }
+            
+            return response.data
+        })
+        .catch((err: AxiosError) => {
+            if (err.response == undefined) {
+                return undefined
+            }
+            
+            let response = err.response.data as PostResponse
+            if (response.success) {
+                return undefined
+            }
+            return new ErrorResponse(response.error)
         })
 }

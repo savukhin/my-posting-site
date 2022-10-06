@@ -21,24 +21,24 @@ const (
 )
 
 type File struct {
-	ID        int          `db:"id"`
-	Path      string       `db:"path"`
-	Title     string       `db:"title"`
-	Type      FileType     `db:"fileType"`
-	Order     int          `db:"order"`
-	Owner     OwnerType    `db:"ownerType"`
-	OwnerID   int          `db:"ownerId"`
-	CreatedAt time.Time    `json:"createdAt"`
-	UpdatedAt time.Time    `json:"updatedAt"`
-	DeletedAt sql.NullTime `json:"deletedAt"`
+	ID    int      `db:"id"`
+	Path  string   `db:"filepath"`
+	Title string   `db:"title"`
+	Type  FileType `db:"file_type"`
+	// Order     int          `db:"order"`
+	Owner     OwnerType    `db:"owner_type"`
+	OwnerID   int          `db:"owner_id"`
+	CreatedAt time.Time    `db:"created_at"`
+	UpdatedAt time.Time    `db:"updated_at"`
+	DeletedAt sql.NullTime `db:"deleted_at"`
 }
 
 type Post struct {
 	ID        int          `db:"id"`
-	AuthorID  int          `db:"authorId"`
-	CreatedAt time.Time    `json:"createdAt"`
-	UpdatedAt time.Time    `json:"updatedAt"`
-	DeletedAt sql.NullTime `json:"deletedAt"`
+	AuthorID  int          `db:"author_id"`
+	CreatedAt time.Time    `db:"created_at"`
+	UpdatedAt time.Time    `db:"updated_at"`
+	DeletedAt sql.NullTime `db:"deleted_at"`
 }
 
 func (file *File) Save() error {
@@ -74,4 +74,21 @@ func (post *Post) Save(files []*File) error {
 	}
 
 	return nil
+}
+
+func GetPostByID(id int) (*Post, []*File, error) {
+	post := &Post{}
+	query := fmt.Sprintf("SELECT * FROM posts WHERE id = %d LIMIT 1", id)
+	if err := DB.Get(post, query); err != nil {
+		return nil, nil, err
+	}
+
+	files := []*File{}
+	query = fmt.Sprintf(`SELECT * FROM files WHERE owner_type='post' AND owner_id=%d`, id)
+	err := DB.Select(&files, query)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return post, files, nil
 }

@@ -20,7 +20,6 @@ const props = defineProps({
 })
 
 function notFoundUser() {
-console.log(profileId);
     isLoading.value = false
     profile.value = undefined
 }
