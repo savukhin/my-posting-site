@@ -1,4 +1,4 @@
-package auth_controllers
+package post_controllers
 
 import (
 	"context"

@@ -33,7 +33,8 @@ message PostResponseElement {
 message PostResponse {
     bool success = 1;
     string error = 2;
-    repeated PostResponseElement elements = 3;
+    bool finished = 3;
+    repeated PostResponseElement elements = 4;
 }
 
 message DefaultResponse {

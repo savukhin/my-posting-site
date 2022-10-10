@@ -36,6 +36,7 @@ type File struct {
 type Post struct {
 	ID        int          `db:"id"`
 	AuthorID  int          `db:"author_id"`
+	Finished  bool         `db:"finished"`
 	CreatedAt time.Time    `db:"created_at"`
 	UpdatedAt time.Time    `db:"updated_at"`
 	DeletedAt sql.NullTime `db:"deleted_at"`
@@ -56,8 +57,8 @@ func (file *File) Save() error {
 
 func (post *Post) Save(files []*File) error {
 	sqlStr := fmt.Sprintf(
-		`INSERT INTO posts (author_id) VALUES (%d) RETURNING id`,
-		post.AuthorID,
+		`INSERT INTO posts (finished, author_id) VALUES (%t, %d) RETURNING id`,
+		post.Finished, post.AuthorID,
 	)
 
 	var postId int

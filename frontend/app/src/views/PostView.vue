@@ -19,6 +19,7 @@ const props = defineProps({
 })
 
 const post = ref<PostResponse>()
+const isFinished = ref(false)
 const isLoading = ref(true)
 const error = ref<string>()
 
@@ -43,8 +44,11 @@ if (typeof postId != "string") {
             error.value = "This post doesn't exists!"
         } else if (value instanceof ErrorResponse) {
             error.value = ( value.msg == "" ? "Unknown error" : value.msg )
+        } else if (!value.finished) {
+            isFinished.value = false
         } else {
             post.value = value
+            isFinished.value = true
         }
     })
 }
@@ -55,7 +59,10 @@ if (typeof postId != "string") {
     <Block v-if="!isLoading && error">
         <h1> {{ error }}</h1>
     </Block>
-    <Block v-if="!isLoading && post">
+    <Block v-else-if="!isLoading && !isFinished">
+        <h1> Sorry this post is processing now </h1>
+    </Block>
+    <Block v-else-if="!isLoading && post && isFinished">
         <h1>Post #{{ postId }}</h1>
 
         <ul id="post-content" class="post-ul">

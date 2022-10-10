@@ -1,4 +1,4 @@
-package auth_controllers
+package post_controllers
 
 import (
 	"context"
@@ -18,6 +18,13 @@ func (server *PostServer) GetPost(ctx context.Context, req *pbPost.GetPostReques
 	post, files, err := models.GetPostByID(int(req.Id))
 	if err != nil {
 		return generatePostError(err.Error())
+	}
+
+	if !post.Finished {
+		return &pbPost.PostResponse{
+			Success:  true,
+			Finished: false,
+		}, nil
 	}
 
 	postResponse, err := mappers.PostModelToPostResponse(post, files)

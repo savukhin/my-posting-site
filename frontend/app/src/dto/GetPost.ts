@@ -7,6 +7,7 @@ export interface PostResponseElement {
 
 export interface PostResponse {
     success: boolean
+    finished: boolean
     error: string
     elements: PostResponseElement[]
 }
