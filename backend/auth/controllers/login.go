@@ -4,8 +4,8 @@ import (
 	"context"
 	"my-posting-site/backend/common/mappers"
 	"my-posting-site/backend/common/models"
+	pbAuth "my-posting-site/backend/common/protobuf/golang/auth"
 	"my-posting-site/backend/common/utils"
-	pbAuth "my-posting-site/common/protobuf/golang/auth"
 )
 
 type AuthServer struct {

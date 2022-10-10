@@ -1,0 +1,1 @@
+docker-compose -f docker-compose.utils.yml docker-compose.yml

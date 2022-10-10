@@ -7,7 +7,7 @@ import (
 	"io"
 	"my-posting-site/backend/api/dto"
 	api_utils "my-posting-site/backend/api/utils"
-	pbPost "my-posting-site/common/protobuf/golang/post"
+	pbPost "my-posting-site/backend/common/protobuf/golang/post"
 	"net/http"
 	"strconv"
 

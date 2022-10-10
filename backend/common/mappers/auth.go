@@ -3,7 +3,7 @@ package mappers
 import (
 	"errors"
 	"my-posting-site/backend/common/models"
-	pbAuth "my-posting-site/common/protobuf/golang/auth"
+	pbAuth "my-posting-site/backend/common/protobuf/golang/auth"
 )
 
 func RegisterRequestToUser(req *pbAuth.RegisterRequest) (*models.User, error) {

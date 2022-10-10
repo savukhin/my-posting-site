@@ -6,7 +6,7 @@ import (
 	"errors"
 	"my-posting-site/backend/api/dto"
 	api_utils "my-posting-site/backend/api/utils"
-	pbUser "my-posting-site/common/protobuf/golang/user"
+	pbUser "my-posting-site/backend/common/protobuf/golang/user"
 	"net/http"
 	"strconv"
 

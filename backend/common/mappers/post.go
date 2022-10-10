@@ -3,7 +3,7 @@ package mappers
 import (
 	"errors"
 	"my-posting-site/backend/common/models"
-	pbPost "my-posting-site/common/protobuf/golang/post"
+	pbPost "my-posting-site/backend/common/protobuf/golang/post"
 	"os"
 	"path/filepath"
 	"strconv"

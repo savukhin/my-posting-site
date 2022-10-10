@@ -1,0 +1,77 @@
+version: "3.9"
+services:
+  # auth:
+  #   build:
+  #     context: ./backend/auth
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3400:3400"
+  #   networks:
+  #     - mynet
+  # user:
+  #   build:
+  #     context: ./backend/user
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3100:3100"
+  #   networks:
+  #     - mynet
+
+  # post:
+  #   depends_on:
+  #     - auth
+  #   build:
+  #     context: ./backend/post
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3200:3200"
+  #   networks:
+  #     - mynet
+
+  # post-processor:
+  #   build:
+  #     context: ./backend/post-processor
+  #     dockerfile: Dockerfile
+  #   networks:
+  #     - mynet
+
+  # api:
+  #   depends_on:
+  #     - auth
+  #     - user
+  #     - post
+  #   build:
+  #     context: ./backend/api
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - mynet
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+      - "3100:3100"
+      - "3200:3200"
+      - "3400:3400"
+
+  frontend:
+    depends_on:
+      # - api
+      - backend
+    build:
+      context: ./frontend/app
+      dockerfile: Dockerfile
+    ports:
+    - "4200:80"
+    networks:
+      - mynet
+
+
+networks:
+  mynet:
+    driver: bridge
+    name: my-shared-db-network

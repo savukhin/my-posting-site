@@ -2,10 +2,10 @@ package grpc_clients
 
 import (
 	"context"
-	pbAuth "my-posting-site/common/protobuf/golang/auth"
-	pbHelloWorld "my-posting-site/common/protobuf/golang/helloWorld"
-	pbPost "my-posting-site/common/protobuf/golang/post"
-	pbUser "my-posting-site/common/protobuf/golang/user"
+	pbAuth "my-posting-site/backend/common/protobuf/golang/auth"
+	pbHelloWorld "my-posting-site/backend/common/protobuf/golang/helloWorld"
+	pbPost "my-posting-site/backend/common/protobuf/golang/post"
+	pbUser "my-posting-site/backend/common/protobuf/golang/user"
 	"time"
 
 	"google.golang.org/grpc"

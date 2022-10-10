@@ -5,7 +5,7 @@ import (
 
 	"my-posting-site/backend/common/mappers"
 	"my-posting-site/backend/common/models"
-	pbUser "my-posting-site/common/protobuf/golang/user"
+	pbUser "my-posting-site/backend/common/protobuf/golang/user"
 )
 
 type UserServer struct {

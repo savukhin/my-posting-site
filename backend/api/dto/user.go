@@ -1,7 +1,7 @@
 package dto
 
 import (
-	pbUser "my-posting-site/common/protobuf/golang/user"
+	pbUser "my-posting-site/backend/common/protobuf/golang/user"
 )
 
 type UserReq struct {

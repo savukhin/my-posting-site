@@ -4,7 +4,7 @@ import (
 	"errors"
 	kafka_messages "my-posting-site/backend/common/kafka"
 	"my-posting-site/backend/common/models"
-	pbPost "my-posting-site/common/protobuf/golang/post"
+	pbPost "my-posting-site/backend/common/protobuf/golang/post"
 )
 
 func GrpcPostToKafkaPost(req *pbPost.CreatePostRequest, userId, postId int) *kafka_messages.Post {

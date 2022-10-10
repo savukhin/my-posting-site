@@ -2,8 +2,8 @@ package auth_controllers
 
 import (
 	"context"
+	pbAuth "my-posting-site/backend/common/protobuf/golang/auth"
 	"my-posting-site/backend/common/utils"
-	pbAuth "my-posting-site/common/protobuf/golang/auth"
 )
 
 func generateUserError(err string) (*pbAuth.UserResponse, error) {

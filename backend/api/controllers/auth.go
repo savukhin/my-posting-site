@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"my-posting-site/backend/api/dto"
 	api_utils "my-posting-site/backend/api/utils"
-	pbAuth "my-posting-site/common/protobuf/golang/auth"
+	pbAuth "my-posting-site/backend/common/protobuf/golang/auth"
 	"net/http"
 )
 

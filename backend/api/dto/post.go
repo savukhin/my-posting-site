@@ -1,6 +1,6 @@
 package dto
 
-import pbPost "my-posting-site/common/protobuf/golang/post"
+import pbPost "my-posting-site/backend/common/protobuf/golang/post"
 
 type PostElement struct {
 	Text          string `json:"text,omitempty"`

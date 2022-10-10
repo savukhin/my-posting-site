@@ -4,9 +4,9 @@ import (
 	"errors"
 	api_controllers "my-posting-site/backend/api/controllers"
 	grpc_clients "my-posting-site/backend/common/grpc"
-	pbAuth "my-posting-site/common/protobuf/golang/auth"
-	pbPost "my-posting-site/common/protobuf/golang/post"
-	pbUser "my-posting-site/common/protobuf/golang/user"
+	pbAuth "my-posting-site/backend/common/protobuf/golang/auth"
+	pbPost "my-posting-site/backend/common/protobuf/golang/post"
+	pbUser "my-posting-site/backend/common/protobuf/golang/user"
 	"net/http"
 
 	"github.com/gorilla/mux"

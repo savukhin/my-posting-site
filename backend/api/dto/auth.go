@@ -1,7 +1,7 @@
 package dto
 
 import (
-	pbAuth "my-posting-site/common/protobuf/golang/auth"
+	pbAuth "my-posting-site/backend/common/protobuf/golang/auth"
 )
 
 type Login struct {

@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"log"
-	pb "my-posting-site/common/protobuf/golang/helloWorld"
+	pb "my-posting-site/backend/common/protobuf/golang/helloWorld"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
