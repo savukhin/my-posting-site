@@ -1,1 +1,1 @@
-docker-compose -f docker-compose.utils.yml docker-compose.yml
+docker-compose -f docker-compose.utils.yml -f docker-compose.yml up --build

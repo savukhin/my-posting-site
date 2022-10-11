@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ErrorResponse } from "@/dto/defaultResponses";
+import { ErrorResponse } from "@/dto/DefaultResponses";
 import { login } from "@/hooks/auth";
 import router from "@/router";
 import { ref } from "vue";

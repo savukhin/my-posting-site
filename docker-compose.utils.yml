@@ -14,6 +14,8 @@ services:
       - data:/var/lib/postgresql/data
     networks:
       - mynet
+    logging:
+      driver: none
 
   zoo1:
     image: zookeeper:3.4.13
@@ -37,6 +39,8 @@ services:
       - ./kafka/zoo1/datalog:/datalog
     networks:
       - mynet
+    logging:
+      driver: none
 
   zoo2:
     image: zookeeper:3.4.13
@@ -59,6 +63,8 @@ services:
       - ./kafka/zoo2/datalog:/datalog
     networks:
       - mynet
+    logging:
+      driver: none
 
   kafka1:
     image: wurstmeister/kafka:2.11-1.1.1
@@ -83,6 +89,8 @@ services:
       - ./kafka/broker1/data:/data
     networks:
       - mynet
+    logging:
+      driver: none
 
   kafka2:
     image: wurstmeister/kafka:2.11-1.1.1
@@ -107,6 +115,11 @@ services:
       - ./kafka/broker2/data:/data
     networks:
       - mynet
+    logging:
+      driver: none
+
+volumes:
+  data:
 
 networks:
   mynet:

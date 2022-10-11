@@ -1,5 +1,5 @@
 import type { Login, Register } from "@/dto/Auth";
-import { GenerateError, type DefaultResponse, ErrorResponse } from "@/dto/defaultResponses";
+import { GenerateError, type DefaultResponse, ErrorResponse } from "@/dto/DefaultResponses";
 import type { PostResponse } from "@/dto/GetPost";
 import type { Post } from "@/dto/Post";
 import axios, { AxiosError } from "axios"

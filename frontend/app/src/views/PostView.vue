@@ -8,7 +8,7 @@ import IconCamera from "../components/icons/IconCamera.vue";
 import IconText from "../components/icons/IconText.vue";
 import type { PostResponse } from "@/dto/GetPost";
 import { getPost } from "@/hooks/post";
-import { ErrorResponse } from "@/dto/defaultResponses";
+import { ErrorResponse } from "@/dto/DefaultResponses";
 import { User } from "@/dto/User";
 
 const props = defineProps({

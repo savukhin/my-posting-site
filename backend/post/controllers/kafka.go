@@ -12,14 +12,13 @@ import (
 const (
 	topic           = "post-processing"
 	topic_processed = "post-processed"
-	broker1Address  = "localhost:9091"
-	broker2Address  = "localhost:9092"
-	broker3Address  = "localhost:9093"
+	broker1Address  = "localhost:9092"
+	broker2Address  = "localhost:9093"
 )
 
 func Produce(post *kafka_messages.Post) error {
 	writer := kafka.NewWriter(kafka.WriterConfig{
-		Brokers: []string{broker1Address, broker2Address, broker3Address},
+		Brokers: []string{broker1Address, broker2Address},
 		Topic:   topic,
 	})
 
@@ -33,7 +32,7 @@ func Produce(post *kafka_messages.Post) error {
 
 func Consume() {
 	r := kafka.NewReader(kafka.ReaderConfig{
-		Brokers: []string{broker1Address, broker2Address, broker3Address},
+		Brokers: []string{broker1Address, broker2Address},
 		Topic:   topic_processed,
 		GroupID: "post-processed-group",
 	})

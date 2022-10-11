@@ -39,7 +39,7 @@
 # echo 
 # $GOPATH/bin/api
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+SCRIPT_DIR=$( cd -- "$( dirname -- "${0}" )" &> /dev/null && pwd )
 cd ${SCRIPT_DIR}/../..
 
 go run backend/api/main.go

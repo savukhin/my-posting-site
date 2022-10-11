@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import Block from "../components/Block.vue";
 import { register } from "../hooks/auth"
-import { GenerateError, type DefaultJWTResponse, ErrorResponse } from "@/dto/defaultResponses";
+import { GenerateError, type DefaultJWTResponse, ErrorResponse } from "@/dto/DefaultResponses";
 import router from "@/router";
 
 const username = ref<HTMLInputElement>()

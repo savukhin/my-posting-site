@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ErrorResponse } from "@/dto/defaultResponses";
+import { ErrorResponse } from "@/dto/DefaultResponses";
 import type { Profile } from "@/dto/Profile";
 import { User } from "@/dto/User";
 import router from "@/router";

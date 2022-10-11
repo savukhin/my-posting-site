@@ -4,8 +4,8 @@ import (
 	"context"
 	kafka_messages "my-posting-site/backend/common/kafka"
 	"my-posting-site/backend/common/mappers"
-	pbAuth "my-posting-site/common/protobuf/golang/auth"
-	pbPost "my-posting-site/common/protobuf/golang/post"
+	pbAuth "my-posting-site/backend/common/protobuf/golang/auth"
+	pbPost "my-posting-site/backend/common/protobuf/golang/post"
 )
 
 type PostServer struct {

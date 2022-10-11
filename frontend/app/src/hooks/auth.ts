@@ -1,5 +1,5 @@
 import type { Login, Register } from "@/dto/Auth";
-import { GenerateError, type DefaultJWTResponse, ErrorResponse } from "@/dto/defaultResponses";
+import { GenerateError, type DefaultJWTResponse, ErrorResponse } from "@/dto/DefaultResponses";
 import axios, { AxiosError } from "axios"
 
 export function register(username: string, email: string, password: string, password2: string) {

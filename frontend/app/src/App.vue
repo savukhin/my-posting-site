@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { RouterLink, RouterView } from "vue-router";
-import { ErrorResponse } from "./dto/defaultResponses";
-import { User } from "./dto/User";
-import { checkJWT } from "./hooks/user";
+import { ErrorResponse } from "@/dto/DefaultResponses";
+import { User } from "@/dto/User";
+import { checkJWT } from "@/hooks/user";
 
   const user = ref<User>()
 

@@ -49,6 +49,10 @@ export class PostItem {
         return this.itemPhoto.photo
     }
 
+    public getPhotoURL() {
+        return this.itemPhoto.photoURL
+    }
+
     public toDTO(): PostElementDTO {
         let element: PostElementDTO = { 
             text: this.itemText.text, 

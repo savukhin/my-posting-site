@@ -2,7 +2,7 @@ package post_controllers
 
 import (
 	"context"
-	pbPost "my-posting-site/common/protobuf/golang/post"
+	pbPost "my-posting-site/backend/common/protobuf/golang/post"
 	"os"
 )
 

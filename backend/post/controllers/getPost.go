@@ -4,7 +4,7 @@ import (
 	"context"
 	"my-posting-site/backend/common/mappers"
 	"my-posting-site/backend/common/models"
-	pbPost "my-posting-site/common/protobuf/golang/post"
+	pbPost "my-posting-site/backend/common/protobuf/golang/post"
 )
 
 func generatePostError(err string) (*pbPost.PostResponse, error) {

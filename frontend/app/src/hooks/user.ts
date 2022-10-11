@@ -1,5 +1,5 @@
 import type { Profile } from "@/dto/Profile";
-import { ErrorResponse } from "@/dto/defaultResponses";
+import { ErrorResponse } from "@/dto/DefaultResponses";
 import axios, { AxiosError } from "axios"
 import type { User } from "@/dto/User";
 

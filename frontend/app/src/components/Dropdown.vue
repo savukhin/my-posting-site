@@ -72,7 +72,7 @@ document.onclick = (event: MouseEvent) => {
             <div ref="dropdownContent" v-if="opened" class="dropdown-content">
                 <ul>
                     <li v-for="(item, index) in items" class="dropdown-item btn-item">
-                        <div @click="() => { chose(index) }"> {{ item.option }} </div>
+                        <div @click="() => { chose(index.toString()) }"> {{ item.option }} </div>
                     </li>
                 </ul>
             </div>

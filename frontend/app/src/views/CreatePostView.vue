@@ -109,8 +109,8 @@ function createPostClick() {
         <ul id="post-content" class="post-ul">
             <li v-for="(item, index) in post.items" :key="item.key">
                 <div v-if="item.type == 'text'" class="post-item">
-                    <textarea rows="1" @change="(event) => { textOnChange(event, item) }" @keydown="(event) => { onTextareaChange(event, index) }" :id="'textarea-' + item.key" />
-                    <div class="btn-hollow" @click="() => { changeItemType(item, 'photo') }">
+                    <textarea rows="1" @change="(event) => { textOnChange(event as InputEvent, item as PostItem) }" @keydown="(event) => { onTextareaChange(event, index) }" :id="'textarea-' + item.key" />
+                    <div class="btn-hollow" @click="() => { changeItemType(item as PostItem, 'photo') }">
                         <IconCamera/>
                     </div>
                 </div>
@@ -120,18 +120,18 @@ function createPostClick() {
                             type="file" 
                             :id="'photo-'+item.key" 
                             accept="image/png, image/gif, image/jpeg"
-                            @change="(event) => {photoUpload(event, item)}"
+                            @change="(event) => {photoUpload(event as InputEvent, item as PostItem)}"
                         />
 
                         <label :for="'photo-'+item.key">
                             <div class="upload-photo-img">
-                                <strong v-if="!item.itemPhoto.photoURL">+</strong>
-                                <img v-else :src="item.itemPhoto.photoURL" />
+                                <strong v-if="!item.getPhotoURL()">+</strong>
+                                <img v-else :src="item.getPhotoURL()" />
                             </div>
                         </label>
-                        <input @change="(event) => { titleOnChange(event, item) }" type="text" name="" :id="'title-'+item.key"/>
+                        <input @change="(event) => { titleOnChange(event as InputEvent, item as PostItem) }" type="text" name="" :id="'title-'+item.key"/>
                     </div>
-                    <div class="btn-hollow" @click="() => { changeItemType(item, 'text') }">
+                    <div class="btn-hollow" @click="() => { changeItemType(item as PostItem, 'text') }">
                         <IconText/>
                     </div>
                 </div>
